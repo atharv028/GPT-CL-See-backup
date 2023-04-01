@@ -1,8 +1,10 @@
 import { useState } from "react";
+import CoverLetterGenerator from "../components/CoverLetterGenerator";
 import FileUploader from "../components/FileUploader";
 
 function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [isAutoGenerating, setIsAutoGenerating] = useState(false);
   return (
     <div className="relative bg-white px-6 pt-16 py-24 lg:px-8">
       <div className="mx-auto text-center">
@@ -55,6 +57,12 @@ function HomePage() {
           </div>
           <div className="sm:col-span-2 mt-2.5 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             <FileUploader />
+          </div>
+          <div className="sm:col-span-2 items-center mt-2.5 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            <CoverLetterGenerator
+              isAutoGenerating={isAutoGenerating}
+              setIsAutoGenerating={setIsAutoGenerating}
+            />
           </div>
         </div>
         <div className="mt-10">
