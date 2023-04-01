@@ -13,7 +13,7 @@ const CoverLetterGenerator = ({
 
   return (
     <div className="flex items-center justify-between h-10 rounded-md pl-3">
-      <span className="text-sm font-bold text-gray-800 items-center">
+      <span className="text-sm font-bold text-gray-800 dark:text-gray-300 items-center">
         Auto generate cover letter
       </span>
       <div
@@ -28,7 +28,7 @@ const CoverLetterGenerator = ({
           }`}
         />
       </div>
-      <span className="text-sm font-bold text-gray-800 items-center ml-3 sm:ml-0">
+      <span className="text-sm font-bold text-gray-800 dark:text-gray-300 items-center ml-3 sm:ml-0">
         Generate by using job details
       </span>
     </div>

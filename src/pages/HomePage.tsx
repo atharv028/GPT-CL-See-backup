@@ -18,7 +18,7 @@ const HomePage = ({ profileId, setProfileId }: Props) => {
   const [jobTitle, setJobTitle] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [isCreative, setIsCreative] = useState(false);
-  const [isWitty, setIsWitty] = useState(false);
+  const [isWitty, setIsWitty] = useState(true);
 
   const handleSubmit = async () => {
     setIsLoading(true);
@@ -57,12 +57,12 @@ const HomePage = ({ profileId, setProfileId }: Props) => {
   };
 
   return (
-    <div className="relative bg-white px-6 pt-16 py-24 lg:px-8">
+    <div className="relative bg-gray-100 dark:bg-gray-900 px-6 pt-16 py-24 lg:px-8">
       <div className="mx-auto text-center">
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-300">
           Cover Letter Generator
         </h2>
-        <p className="mt-2 text-lg leading-8 text-gray-600">
+        <p className="mt-2 text-lg leading-8 text-gray-600 dark:text-gray-400">
           Generate a cover letter for your next job application.
         </p>
       </div>
@@ -75,7 +75,7 @@ const HomePage = ({ profileId, setProfileId }: Props) => {
           <div>
             <label
               htmlFor="first-name"
-              className="block text-sm font-semibold leading-6 text-gray-900"
+              className="block text-sm font-semibold leading-6 text-gray-900 dark:text-gray-300"
             >
               First name
             </label>
@@ -88,14 +88,14 @@ const HomePage = ({ profileId, setProfileId }: Props) => {
                   setFirstName(e.target.value);
                 }}
                 autoComplete="given-name"
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset text-gray-900 dark:text-gray-300 bg-gray-100 dark:bg-gray-900 ring-gray-300 focus:ring-indigo-600 dark:focus:ring-slate-900  focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
               />
             </div>
           </div>
           <div>
             <label
               htmlFor="last-name"
-              className="block text-sm font-semibold leading-6 text-gray-900"
+              className="block text-sm font-semibold leading-6 text-gray-900 dark:text-gray-300"
             >
               Last name
             </label>
@@ -108,7 +108,7 @@ const HomePage = ({ profileId, setProfileId }: Props) => {
                   setLastName(e.target.value);
                 }}
                 autoComplete="family-name"
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 px-3.5 py-2  text-gray-900 dark:text-gray-300 bg-gray-100 dark:bg-gray-900 ring-gray-300 focus:ring-indigo-600 dark:focus:ring-slate-900  shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -127,7 +127,7 @@ const HomePage = ({ profileId, setProfileId }: Props) => {
           <div className="sm:col-span-2">
             <label
               htmlFor="company"
-              className="block text-sm font-semibold leading-6 text-gray-900"
+              className="block text-sm font-semibold leading-6 text-gray-900 dark:text-gray-300"
             >
               Job Title
             </label>
@@ -141,10 +141,10 @@ const HomePage = ({ profileId, setProfileId }: Props) => {
                 }}
                 disabled={!isAutoGenerating}
                 autoComplete="organization"
-                className={`block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
+                className={`block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 dark:text-gray-300 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-slate-800 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-slate-800 sm:text-sm sm:leading-6 ${
                   !isAutoGenerating
-                    ? "bg-gray-200 text-gray-500"
-                    : "bg-white text-gray-800"
+                    ? "bg-gray-200 text-gray-500 dark:bg-gray-800"
+                    : "bg-transparent text-gray-800 dark:text-gray-100"
                 }`}
               />
             </div>
@@ -152,7 +152,7 @@ const HomePage = ({ profileId, setProfileId }: Props) => {
           <div className="sm:col-span-2">
             <label
               htmlFor="message"
-              className="block text-sm font-semibold leading-6 text-gray-900"
+              className="block text-sm font-semibold leading-6 text-gray-900 dark:text-gray-300"
             >
               Job Description
             </label>
@@ -163,10 +163,10 @@ const HomePage = ({ profileId, setProfileId }: Props) => {
                 rows={4}
                 onChange={(e) => setJobDescription(e.target.value)}
                 disabled={!isAutoGenerating}
-                className={`block w-full min-h-[10rem] rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
+                className={`block w-full min-h-[10rem] rounded-md border-0 px-3.5 py-2 text-gray-900 dark:text-gray-300 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-slate-800 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-slate-800 sm:text-sm sm:leading-6 ${
                   !isAutoGenerating
-                    ? "bg-gray-200 text-gray-500"
-                    : "bg-white text-gray-800"
+                    ? "bg-gray-200 text-gray-500 dark:bg-gray-800"
+                    : "bg-transparent text-gray-800 dark:text-gray-100"
                 }`}
                 defaultValue={""}
               />
@@ -174,17 +174,16 @@ const HomePage = ({ profileId, setProfileId }: Props) => {
           </div>
           <div className="flex items-center mb-4">
             <input
-              checked
               id="checked-checkbox"
               type="checkbox"
               onChange={(e) => {
                 setIsWitty(e.target.checked);
               }}
-              className="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+              className="w-4 h-4 text-blue-600 dark:text-gray-900 bg-transparent border-gray-300 dark:border-gray-700 rounded focus:ring-blue-500 dark:focus:ring-slate-800 focus:ring-2"
             />
             <label
               htmlFor="checked-checkbox"
-              className="ml-2 text-sm font-semibold text-gray-900"
+              className="ml-2 text-sm font-semibold text-gray-900 dark:text-gray-300"
             >
               Include a witty comment at the end.
             </label>
@@ -195,7 +194,7 @@ const HomePage = ({ profileId, setProfileId }: Props) => {
             <button
               type="submit"
               onClick={handleSubmit}
-              className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
+              className="block w-full text-gray-100 bg-indigo-600 dark:bg-slate-700 dark:hover:bg-slate-600 dark:focus:ring-slate-800 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 text-center mr-2 "
             >
               Generate cover letter
             </button>
@@ -204,7 +203,7 @@ const HomePage = ({ profileId, setProfileId }: Props) => {
             <button
               disabled={isLoading}
               type="button"
-              className="w-full text-white bg-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="w-full text-gray-100 bg-indigo-600 dark:bg-slate-700 dark:hover:bg-slate-600 dark:focus:ring-slate-800 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 text-center mr-2"
             >
               <svg
                 aria-hidden="true"
