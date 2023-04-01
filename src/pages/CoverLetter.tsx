@@ -22,7 +22,10 @@ function CoverLetter() {
   };
   const [isCopyEnabled, setIsCopyEnabled] = useState(true);
   return (
-    <div className="relative bg-white  mx-auto pt-16 py-24 lg:px-8">
+    <div className="relative bg-white  mx-auto py-8 lg:px-8">
+      <div className="flex mx-auto my-3 w-3/4 md:w-1/2 justify-center">
+        <h1 className="text-2xl font-bold">Here's your cover letter!</h1>
+      </div>
       <textarea
         name="company"
         id="company"

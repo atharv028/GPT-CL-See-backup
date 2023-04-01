@@ -2,6 +2,15 @@ import { useState } from "react";
 import CoverLetterGenerator from "../components/CoverLetterGenerator";
 import FileUploader from "../components/FileUploader";
 import { Link, useNavigate } from "react-router-dom";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import {
+  useAccount,
+  useConnect,
+  useSignMessage,
+  useDisconnect,
+  Address,
+} from "wagmi";
+import axios from "axios";
 
 function HomePage() {
   const navigate = useNavigate();
@@ -15,8 +24,42 @@ function HomePage() {
   const [isCreative, setIsCreative] = useState(false);
   const [isWitty, setIsWitty] = useState(false);
 
+  const { connectAsync } = useConnect();
+  const { disconnectAsync } = useDisconnect();
+  const { isConnected } = useAccount();
+  const { signMessageAsync } = useSignMessage();
+  const [profileId, setProfileId] = useState(null);
+
+  const handleConnect = async () => {
+    if (isConnected) {
+      await disconnectAsync();
+    }
+
+    const { account, chain } = await connectAsync({
+      connector: new MetaMaskConnector(),
+    });
+    const { data } = await axios.get("http://localhost:5000/login", {
+      insecureHTTPParser: true,
+      params: { address: account, chain_id: chain.id },
+    });
+
+    const message = data.message;
+
+    const signature = await signMessageAsync(message);
+
+    const verification = await axios.post("http://localhost:5000/verifyLogin", {
+      params: { message: message, signature: signature },
+    });
+
+    setProfileId(verification.data.profileId);
+  };
+
   const handleSubmit = () => {
     setIsLoading(true);
+    if (profileId == null) {
+      handleConnect();
+      return;
+    }
     window.console.log(selectedFile);
     if (!selectedFile) return;
     const formData = new FormData();
@@ -165,16 +208,19 @@ function HomePage() {
           </div>
           <div className="flex items-center mb-4">
             <input
-              id="default-checkbox"
+              checked
+              id="checked-checkbox"
               type="checkbox"
-              value=""
+              onChange={(e) => {
+                setIsWitty(e.target.checked);
+              }}
               className="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
             />
             <label
-              htmlFor="default-checkbox"
+              htmlFor="checked-checkbox"
               className="ml-2 text-sm font-semibold text-gray-900"
             >
-              Make it witty?
+              Include a witty comment at the end.
             </label>
           </div>
         </div>
