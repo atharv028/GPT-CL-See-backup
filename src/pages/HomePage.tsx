@@ -38,26 +38,29 @@ function HomePage() {
     const { account, chain } = await connectAsync({
       connector: new MetaMaskConnector(),
     });
-    const { data } = await axios.get("http://localhost:5000/login", {
+    const { data } = await axios.get("https://think-3rba.onrender.com/login", {
       insecureHTTPParser: true,
       params: { address: account, chain_id: chain.id },
     });
 
     const message = data.message;
 
-    const signature = await signMessageAsync(message);
+    const signature = await signMessageAsync({ message: message });
 
-    const verification = await axios.post("http://localhost:5000/verifyLogin", {
-      params: { message: message, signature: signature },
-    });
-
+    const verification = await axios.get(
+      "https://think-3rba.onrender.com/verifyLogin",
+      {
+        params: { message: message, signature: signature },
+      }
+    );
+    console.log(verification.data);
     setProfileId(verification.data.profileId);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setIsLoading(true);
     if (profileId == null) {
-      handleConnect();
+      alert("Please Login with Metamask first!");
       return;
     }
     window.console.log(selectedFile);
@@ -70,7 +73,7 @@ function HomePage() {
     formData.append("creative", isCreative ? "Yes" : "No");
     formData.append("witty", isWitty ? "Yes" : "No");
     console.log(...formData.keys(), ...formData.values());
-    fetch("http://127.0.0.1:5000/upload_resume", {
+    fetch("https://think-3rba.onrender.com/upload_resume", {
       method: "POST",
       body: formData,
     })
