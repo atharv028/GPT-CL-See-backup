@@ -1,7 +1,11 @@
 import React, { useState, ChangeEvent } from "react";
 
-const FileUploader: React.FC = () => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+type Props = {
+  selectedFile: File | null;
+  setSelectedFile: (file: File | null) => void;
+};
+
+const FileUploader = ({ selectedFile, setSelectedFile }: Props) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
