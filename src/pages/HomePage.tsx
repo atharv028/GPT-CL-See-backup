@@ -1,8 +1,10 @@
 import { useState } from "react";
 import CoverLetterGenerator from "../components/CoverLetterGenerator";
 import FileUploader from "../components/FileUploader";
+import { Link, useNavigate } from "react-router-dom";
 
 function HomePage() {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isAutoGenerating, setIsAutoGenerating] = useState(false);
   const [firstName, setFirstName] = useState("");
@@ -10,28 +12,37 @@ function HomePage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [jobTitle, setJobTitle] = useState("");
   const [jobDescription, setJobDescription] = useState("");
+  const [isCreative, setIsCreative] = useState(false);
+  const [isWitty, setIsWitty] = useState(false);
 
   const handleSubmit = () => {
     setIsLoading(true);
+    window.console.log(selectedFile);
     if (!selectedFile) return;
     const formData = new FormData();
-    formData.append("first_name", firstName);
-    formData.append("last_name", lastName);
+    formData.append("name", firstName + " " + lastName);
     formData.append("job_title", jobTitle);
     formData.append("job_description", jobDescription);
-    formData.append("cv", selectedFile!);
-    fetch("http://localhost:5000/upload_resume", {
+    formData.append("resume", selectedFile!);
+    formData.append("creative", isCreative ? "Yes" : "No");
+    formData.append("witty", isWitty ? "Yes" : "No");
+    console.log(...formData.keys(), ...formData.values());
+    fetch("http://127.0.0.1:5000/upload_resume", {
       method: "POST",
       body: formData,
     })
-      .then((response) => {
-        response.json().then((data) => {
-          console.log(data);
-          setIsLoading(false);
+      .then(async (response) => {
+        let data = await response.json();
+        window.console.log(data.content);
+        setIsLoading(false);
+        navigate("/cover-letter", {
+          state: {
+            resp: data.content,
+          },
         });
       })
       .catch((error) => {
-        console.log(error);
+        window.console.log(error);
         setIsLoading(false);
       });
   };
@@ -151,6 +162,20 @@ function HomePage() {
                 defaultValue={""}
               />
             </div>
+          </div>
+          <div className="flex items-center mb-4">
+            <input
+              id="default-checkbox"
+              type="checkbox"
+              value=""
+              className="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+            />
+            <label
+              htmlFor="default-checkbox"
+              className="ml-2 text-sm font-semibold text-gray-900"
+            >
+              Make it witty?
+            </label>
           </div>
         </div>
         <div className="mt-10">

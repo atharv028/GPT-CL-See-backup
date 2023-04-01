@@ -1,10 +1,15 @@
 import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import CoverLetter from "./pages/CoverLetter";
 import HomePage from "./pages/HomePage";
 
 function App() {
   return (
     <>
-      <HomePage />
+      <Routes>
+        {/* <Route path="/" element={<HomePage />} /> */}
+        <Route path="/" element={<CoverLetter />} />
+      </Routes>
     </>
   );
 }
