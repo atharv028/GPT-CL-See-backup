@@ -2,17 +2,13 @@ import { useState } from "react";
 import CoverLetterGenerator from "../components/CoverLetterGenerator";
 import FileUploader from "../components/FileUploader";
 import { Link, useNavigate } from "react-router-dom";
-import { MetaMaskConnector } from "wagmi/connectors/metaMask";
-import {
-  useAccount,
-  useConnect,
-  useSignMessage,
-  useDisconnect,
-  Address,
-} from "wagmi";
-import axios from "axios";
 
-function HomePage() {
+type Props = {
+  profileId: string;
+  setProfileId: (profileId: string) => void;
+};
+
+const HomePage = ({ profileId, setProfileId }: Props) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isAutoGenerating, setIsAutoGenerating] = useState(false);
@@ -23,39 +19,6 @@ function HomePage() {
   const [jobDescription, setJobDescription] = useState("");
   const [isCreative, setIsCreative] = useState(false);
   const [isWitty, setIsWitty] = useState(false);
-
-  const { connectAsync } = useConnect();
-  const { disconnectAsync } = useDisconnect();
-  const { isConnected } = useAccount();
-  const { signMessageAsync } = useSignMessage();
-  const [profileId, setProfileId] = useState(null);
-
-  const handleConnect = async () => {
-    if (isConnected) {
-      await disconnectAsync();
-    }
-
-    const { account, chain } = await connectAsync({
-      connector: new MetaMaskConnector(),
-    });
-    const { data } = await axios.get("https://think-3rba.onrender.com/login", {
-      insecureHTTPParser: true,
-      params: { address: account, chain_id: chain.id },
-    });
-
-    const message = data.message;
-
-    const signature = await signMessageAsync({ message: message });
-
-    const verification = await axios.get(
-      "https://think-3rba.onrender.com/verifyLogin",
-      {
-        params: { message: message, signature: signature },
-      }
-    );
-    console.log(verification.data);
-    setProfileId(verification.data.profileId);
-  };
 
   const handleSubmit = async () => {
     setIsLoading(true);
@@ -267,6 +230,6 @@ function HomePage() {
       </form>
     </div>
   );
-}
+};
 
 export default HomePage;
