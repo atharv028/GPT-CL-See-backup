@@ -10,6 +10,32 @@ function HomePage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [jobTitle, setJobTitle] = useState("");
   const [jobDescription, setJobDescription] = useState("");
+
+  const handleSubmit = () => {
+    setIsLoading(true);
+    if (!selectedFile) return;
+    const formData = new FormData();
+    formData.append("first_name", firstName);
+    formData.append("last_name", lastName);
+    formData.append("job_title", jobTitle);
+    formData.append("job_description", jobDescription);
+    formData.append("cv", selectedFile!);
+    fetch("http://localhost:5000/upload_resume", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        response.json().then((data) => {
+          console.log(data);
+          setIsLoading(false);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
+
   return (
     <div className="relative bg-white px-6 pt-16 py-24 lg:px-8">
       <div className="mx-auto text-center">
@@ -38,6 +64,9 @@ function HomePage() {
                 type="text"
                 name="first-name"
                 id="first-name"
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                }}
                 autoComplete="given-name"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -55,6 +84,9 @@ function HomePage() {
                 type="text"
                 name="last-name"
                 id="last-name"
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                }}
                 autoComplete="family-name"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -84,6 +116,9 @@ function HomePage() {
                 type="text"
                 name="company"
                 id="company"
+                onChange={(e) => {
+                  setJobTitle(e.target.value);
+                }}
                 disabled={!isAutoGenerating}
                 autoComplete="organization"
                 className={`block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
@@ -106,6 +141,7 @@ function HomePage() {
                 name="message"
                 id="message"
                 rows={4}
+                onChange={(e) => setJobDescription(e.target.value)}
                 disabled={!isAutoGenerating}
                 className={`block w-full min-h-[10rem] rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
                   !isAutoGenerating
@@ -121,9 +157,7 @@ function HomePage() {
           {!isLoading && (
             <button
               type="submit"
-              onClick={() => {
-                setIsLoading(true);
-              }}
+              onClick={handleSubmit}
               className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
             >
               Generate cover letter
